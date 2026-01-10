@@ -1,0 +1,1 @@
+Do uvicorn main:app --reload from backend folder
