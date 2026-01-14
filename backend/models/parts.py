@@ -10,7 +10,6 @@ class CPU(Base):
     threads = Column(Integer)
     base_clock = Column(Float)  # GHz
     boost_clock = Column(Float)  # GHz
-    tdp = Column(Integer)  # Watts
     socket = Column(String)
     price = Column(Float)  # USD
     integrated_graphics = Column(Boolean, default=False)
