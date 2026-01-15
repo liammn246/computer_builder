@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from schemas.parts import GPUCreateSchema, CPUCreateSchema
+from schemas.parts import GPUCreateSchema, CPUCreateSchema, CPUOptionSchema, GPUOptionSchema
 from models.parts import GPU, CPU
 from database.database import get_db
 from sqlalchemy.orm import Session
@@ -34,12 +34,12 @@ def create_cpu(request: CPUCreateSchema, db: db_dependency):
     db.commit()
     return cpu
 
-@parts_router.get("/cpus")
+@parts_router.get("/cpus", response_model=list[CPUOptionSchema])
 def fetch_cpus(db: db_dependency):
     cpus = db.query(CPU).all()
     return cpus
 
-@parts_router.get("/gpus")
+@parts_router.get("/gpus", response_model=list[GPUOptionSchema])
 def fetch_gpus(db: db_dependency):
     gpus = db.query(GPU).all()
     return gpus

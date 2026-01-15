@@ -15,6 +15,20 @@ function App() {
       .then((data) => setGpus(data))
       .catch((error) => console.error("Error fetching GPUs:", error));
   }, []);
+  //Search prompt
+  const [searchPrompt, setSearchPrompt] = useState("");
+  // Specific part selections
+  const [selectedCpu, setSelectedCpu] = useState("");
+  const [selectedGpu, setSelectedGpu] = useState("");
+  // Optional specifications
+  const [cpuBrand, setCpuBrand] = useState("");
+  const [gpuBrand, setGpuBrand] = useState("");
+  const [ramSize, setRamSize] = useState("");
+  const [budget, setBudget] = useState("");
+
+  const handleGenerateBuild = () => {
+    // Logic to generate build based on user inputs
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start bg-gray-50 p-6">
@@ -26,6 +40,8 @@ function App() {
           type="text"
           placeholder="Type what kind of PC you want..."
           className="grow px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={searchPrompt}
+          onChange={(e) => setSearchPrompt(e.target.value)}
         />
         <button
           onClick={() => setShowAdvanced(!showAdvanced)}
@@ -45,7 +61,7 @@ function App() {
 
           <div className="flex items-center gap-4">
             <span className="w-28 text-sm font-medium text-gray-700 text-right"> CPU Name: </span>
-            <select className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <select value={selectedCpu} onChange={(e) => setSelectedCpu(e.target.value)} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
               <option value="">Any CPU</option>
               {cpus.map((cpu) => (
                 <option key={cpu.id} value={cpu.id}>
@@ -59,7 +75,7 @@ function App() {
 
           <div className="flex items-center gap-4">
             <span className="w-28 text-sm font-medium text-gray-700 text-right"> GPU Name: </span>
-            <select className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <select value={selectedGpu} onChange={(e) => setSelectedGpu(e.target.value)} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
               <option value="">Any GPU</option>
               {gpus.map((gpu) => (
                 <option key={gpu.id} value={gpu.id}>
@@ -75,42 +91,37 @@ function App() {
           <p>Specify what type of parts you want here: (Optional)</p>
           <div className="flex items-center gap-4">
             <span className="w-28 text-sm font-medium text-gray-700 text-right"> CPU Brand: </span>
-            <select className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <select value={cpuBrand} onChange={(e) => setCpuBrand(e.target.value)} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
               <option value="">Any CPU Brand</option>
-              <option>AMD</option> 
-              {/* Must give options a value */}
-              <option>INTEL</option>
+              <option value="AMD">AMD</option> 
+              <option value="INTEL">INTEL</option>
             </select>
           </div>
 
           <div className="flex items-center gap-4">
             <span className="w-28 text-sm font-medium text-gray-700 text-right"> GPU Brand: </span>
-            <select className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <option value="">Any GPU Brand</option>
-            <option value="8GB">AMD</option>
-            <option value="16GB">NVIDIA</option>
-            <option value="32GB">INTEL</option>
+            <select value={gpuBrand} onChange={(e) => setGpuBrand(e.target.value)} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+              <option value="">Any GPU Brand</option>
+              <option value="AMD">AMD</option>
+              <option value="NVIDIA">NVIDIA</option>
+              <option value="INTEL">INTEL</option>
             </select>
           </div>
 
           <div className="flex items-center gap-4">
             <span className="w-28 text-sm font-medium text-gray-700 text-right"> RAM Size: </span>
-            <select className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <option value="">Any RAM size</option>
-            <option>8GB</option>
-            <option>16GB</option>
-            <option>32GB</option>
-            <option>64GB</option>
+            <select value={ramSize} onChange={(e) => setRamSize(e.target.value)} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+              <option value="">Any RAM size</option>
+              <option value="8">8GB</option>
+              <option value="16">16GB</option>
+              <option value="32">32GB</option>
+              <option value="64">64GB</option>
             </select>
           </div>
-          
-          <input
-            type="number"
-            placeholder="Budget"
-            className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
 
-          <button className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
+          <input value={budget} onChange={(e) => setBudget(e.target.value)} type="number" placeholder="Budget" className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+
+          <button onClick={() => console.log(selectedGpu)} className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
             Generate Build
           </button>
         </div>
