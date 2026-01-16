@@ -25,9 +25,29 @@ function App() {
   const [gpuBrand, setGpuBrand] = useState("");
   const [ramSize, setRamSize] = useState("");
   const [budget, setBudget] = useState("");
+  // Build parts
+  const [components, setComponents] = useState(null);
 
+  const normalize = (v) => (v === "" ? null : v);
   const handleGenerateBuild = () => {
-    // Logic to generate build based on user inputs
+    const payload = {
+      cpu_name: normalize(selectedCpu),
+      gpu_name: normalize(selectedGpu),
+      cpu_brand: normalize(cpuBrand),
+      gpu_brand: normalize(gpuBrand),
+      ram_size: normalize(ramSize),
+      budget: normalize(budget),
+    };
+    fetch("http://127.0.0.1:8000/filter/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => setComponents(data))
+      .catch((error) => console.error("Error fetching components:", error));
   }
 
   return (
@@ -64,7 +84,7 @@ function App() {
             <select value={selectedCpu} onChange={(e) => setSelectedCpu(e.target.value)} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
               <option value="">Any CPU</option>
               {cpus.map((cpu) => (
-                <option key={cpu.id} value={cpu.id}>
+                <option key={cpu.id} value={cpu.name}>
                   {cpu.name}
                 </option>
               ))}
@@ -78,7 +98,7 @@ function App() {
             <select value={selectedGpu} onChange={(e) => setSelectedGpu(e.target.value)} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
               <option value="">Any GPU</option>
               {gpus.map((gpu) => (
-                <option key={gpu.id} value={gpu.id}>
+                <option key={gpu.id} value={gpu.name}>
                   {gpu.name}
                 </option>
               ))}
@@ -121,7 +141,7 @@ function App() {
 
           <input value={budget} onChange={(e) => setBudget(e.target.value)} type="number" placeholder="Budget" className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
 
-          <button onClick={() => console.log(selectedGpu)} className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
+          <button onClick={() => handleGenerateBuild()} className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
             Generate Build
           </button>
         </div>

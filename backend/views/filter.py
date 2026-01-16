@@ -6,10 +6,10 @@ from sqlalchemy.orm import Session
 from typing import Annotated
 from helpers.db_filter import filter_cpu, filter_gpu
 
-parts_router = APIRouter(prefix="/parts")
+filter = APIRouter(prefix="")
 db_dependency = Annotated[Session, Depends(get_db)]
 
-@parts_router.post("/filter", response_model=PartFilterResponse)
+@filter.post("/filter", response_model=PartFilterResponse)
 def filter_parts(constraints: PartSpecificationSchema, db: db_dependency):
     # Must factor in Budget and other aspects later
     filtered_cpus = filter_cpu(constraints, db)
