@@ -112,7 +112,7 @@ function App() {
           <p>Specify what type of parts you want here: (Optional)</p>
           <div className="flex items-center gap-4">
             <span className="w-28 text-sm font-medium text-gray-700 text-right"> CPU Brand: </span>
-            <select value={cpuBrand} onChange={(e) => setCpuBrand(e.target.value)} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <select value={cpuBrand} onChange={(e) => setCpuBrand(e.target.value)} disabled={normalize(selectedCpu) != null} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed">
               <option value="">Any CPU Brand</option>
               <option value="AMD">AMD</option> 
               <option value="INTEL">INTEL</option>
@@ -121,7 +121,7 @@ function App() {
 
           <div className="flex items-center gap-4">
             <span className="w-28 text-sm font-medium text-gray-700 text-right"> GPU Brand: </span>
-            <select value={gpuBrand} onChange={(e) => setGpuBrand(e.target.value)} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <select value={gpuBrand} onChange={(e) => setGpuBrand(e.target.value)} disabled={normalize(selectedGpu) != null} className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed">
               <option value="">Any GPU Brand</option>
               <option value="AMD">AMD</option>
               <option value="NVIDIA">NVIDIA</option>
