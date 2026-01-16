@@ -48,6 +48,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => setComponents(data))
       .catch((error) => console.error("Error fetching components:", error));
+    console.log(components)
   }
 
   return (
@@ -148,21 +149,27 @@ function App() {
       </div>
 
       {/* Placeholder Suggested Build */}
-      <div className="mt-8 w-full max-w-xl space-y-3">
-        <h2 className="text-xl font-semibold">Suggested Build</h2>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-          CPU: Intel i5 13600K
+      {components && (
+        <div className="mt-8 w-full max-w-xl space-y-3">
+          <h2 className="text-xl font-semibold">Suggested Build</h2>
+
+          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            CPU: {components.cpus?.[0]?.name ?? "—"}
+          </div>
+
+          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            GPU: {components.gpus?.[0]?.name ?? "—"}
+          </div>
+
+          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            RAM: {components.ram ?? "—"}
+          </div>
+
+          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            Storage: {components.storage ?? "—"}
+          </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-          GPU: RTX 4070
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-          RAM: 32GB DDR5
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-          Storage: 1TB NVMe SSD
-        </div>
-      </div>
+      )}
     </div>
   );
 }
