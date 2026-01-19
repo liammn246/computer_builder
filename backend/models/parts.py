@@ -3,29 +3,48 @@ from database.database import Base
 
 class CPU(Base):
     __tablename__ = "cpus"
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
-    brand = Column(String)  # Intel, AMD
+    brand = Column(String, nullable=False)  # AMD, INTEL
+
     cores = Column(Integer)
     threads = Column(Integer)
-    base_clock = Column(Float)  # GHz
+
+    base_clock = Column(Float)   # GHz
     boost_clock = Column(Float)  # GHz
+
     socket = Column(String)
-    price = Column(Float)  # USD
+
+    performance_score = Column(Float, nullable=True)
+    tdp_watts = Column(Integer, nullable=True)
+
+    price_usd = Column(Float)
     integrated_graphics = Column(Boolean, default=False)
+
     release_year = Column(Integer)
+
 
 class GPU(Base):
     __tablename__ = "gpus"
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
-    brand = Column(String)  # NVIDIA, AMD
-    vram = Column(Integer)  # GB
-    base_clock = Column(Float)
-    boost_clock = Column(Float)
-    tdp = Column(Integer)  # Watts
-    price = Column(Float)  # USD
+    brand = Column(String, nullable=False)  # NVIDIA, AMD, INTEL
+
+    vram_gb = Column(Integer)
+
+    performance_score = Column(Float, nullable=True)
+    value_score = Column(Float, nullable=True)
+
+    tdp_watts = Column(Integer, nullable=True)
+
+    price_usd = Column(Float)
     release_year = Column(Integer)
+
+    pcie_version = Column(Float, nullable=True)
+    length_mm = Column(Integer, nullable=True)
+
 
 class PSU(Base):
     __tablename__ = "psus"

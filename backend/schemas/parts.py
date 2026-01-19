@@ -1,16 +1,26 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class CPUCreateSchema(BaseModel):
     name: str
     brand: str
+
     cores: int
     threads: int
-    base_clock: float
-    boost_clock: float
+
+    base_clock: Optional[float] = None
+    boost_clock: Optional[float] = None
+
     socket: str
-    price: float
-    integrated_graphics: bool
+
+    performance_score: Optional[float] = None
+    tdp_watts: Optional[int] = None
+
+    price_usd: float
+    integrated_graphics: bool = False
+
     release_year: int
+
 
 class CPUOptionSchema(BaseModel):
     id: int
@@ -18,16 +28,25 @@ class CPUOptionSchema(BaseModel):
 
 class CPUOut(CPUCreateSchema):
     id: int
+    price_usd: float
 
 class GPUCreateSchema(BaseModel):
     name: str
     brand: str
-    vram: int
-    base_clock: float
-    boost_clock: float
-    tdp: int
-    price: float
+
+    vram_gb: int
+
+    performance_score: Optional[float] = None
+    value_score: Optional[float] = None
+
+    tdp_watts: Optional[int] = None
+
+    price_usd: float
     release_year: int
+
+    pcie_version: Optional[float] = None
+    length_mm: Optional[int] = None
+
     
 class GPUOptionSchema(BaseModel):
     id: int
@@ -35,6 +54,7 @@ class GPUOptionSchema(BaseModel):
 
 class GPUOut(GPUCreateSchema):
     id: int
+    price_usd: float
 
 class PartSpecificationSchema(BaseModel):
     cpu_name: str | None = None
@@ -43,7 +63,11 @@ class PartSpecificationSchema(BaseModel):
     gpu_brand: str | None = None
     ram_size: int | None = None
     budget: float | None = None
+    pc_use: str | None = None
 
 class PartFilterResponse(BaseModel):
-    cpus: list[CPUOut]
-    gpus: list[GPUOut]
+    cpus: list[CPUOut] | None = None
+    gpus: list[GPUOut] | None = None
+    ram: str | None = None
+    storage: str | None = None
+    needs_clarification: str | None = None
